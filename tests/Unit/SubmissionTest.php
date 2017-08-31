@@ -6,6 +6,8 @@ use Tests\TestCase;
 use App\Submission;
 use App\Url;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Snippet;
+use App\File;
 
 class SubmissionTest extends TestCase
 {
@@ -39,5 +41,25 @@ class SubmissionTest extends TestCase
         $this->assertInstanceOf(Url::class, $submission->content);
         $this->assertEquals($submission->content->id, $submission->content_id);
         $this->assertEquals('url', $submission->content_type);
+    }
+
+    /** @test */
+    public function it_can_be_a_text_snippet()
+    {
+        $submission = factory(Submission::class, 'snippet')->create();
+
+        $this->assertInstanceOf(Snippet::class, $submission->content);
+        $this->assertEquals($submission->content->id, $submission->content_id);
+        $this->assertEquals('snippet', $submission->content_type);
+    }
+
+    /** @test */
+     public function it_can_be_a_file_upload()
+    {
+        $submission = factory(Submission::class, 'file')->create();
+        $this->assertInstanceOf(Snippet::class, $submission->content);
+        $this->assertInstanceOf(File::class, $submission->content);
+        $this->assertEquals($submission->content->id, $submission->content_id);
+        $this->assertEquals('file', $submission->content_type);
     }
 }
