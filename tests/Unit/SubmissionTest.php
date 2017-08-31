@@ -8,6 +8,8 @@ use App\Url;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Snippet;
 use App\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 
 class SubmissionTest extends TestCase
 {
@@ -54,11 +56,38 @@ class SubmissionTest extends TestCase
     }
 
     /** @test */
-     public function it_can_be_a_file_upload()
+    public function it_can_be_a_file_upload()
     {
         $submission = factory(Submission::class, 'file')->create();
         $this->assertInstanceOf(File::class, $submission->content);
         $this->assertEquals($submission->content->id, $submission->content_id);
         $this->assertEquals('file', $submission->content_type);
+    }
+
+    /** @test */
+    public function it_can_create_the_appropriate_resource_based_on_given_type()
+    {
+        $urlSubmission = Submission::createFromType('url', [
+            'body' => 'https://example.com',
+        ]);
+        $this->assertInstanceOf(Url::class, $urlSubmission->content);
+        $this->assertEquals('https://example.com', $urlSubmission->content->body);
+
+        $snippetSubmission = Submission::createFromType('snippet', [
+            'body' => 'Example snippet.',
+        ]);
+        $this->assertInstanceOf(Snippet::class, $snippetSubmission->content);
+        $this->assertEquals('Example snippet.', $snippetSubmission->content->body);
+
+        Storage::fake('void');
+        $fakeFile = UploadedFile::fake()->create('myFile.txt', 1);
+        $fileSubmission = Submission::createFromType('file', [
+            'body' => $fakeFile,
+        ]);
+        $this->assertInstanceOf(File::class, $fileSubmission->content);
+        $this->assertEquals(
+            Storage::disk('void')->url($fakeFile->hashName()),
+            $fileSubmission->content->body
+        );
     }
 }

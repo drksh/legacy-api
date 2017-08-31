@@ -13,22 +13,8 @@ class SubmissionsController extends Controller
 {
     public function store()
     {
-        if (request('type') === 'url') {
-            $content = Url::create(request()->only('body'));
-        } else if (request('type') === 'snippet') {
-            $content = Snippet::create(request()->only('body'));
-        } else if (request('type') === 'file') {
-            $file = request()->file('body');
-            $file->store('', 'void');
-
-            $content = File::create([
-                'body' => Storage::disk('void')->url($file->hashName()),
-            ]);
-        }
-
-        $submission = Submission::create([
-            'content_id' => $content->id,
-            'content_type' => request('type'),
+        $submission = Submission::createFromType(request('type'), [
+            'body' => request('body'),
         ]);
 
         return response([
