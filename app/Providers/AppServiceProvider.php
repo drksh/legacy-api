@@ -20,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
 
         Relation::morphMap([
             'url' => \App\Url::class,
+            'snippet' => \App\Snippet::class,
+            'file' => \App\File::class,
         ]);
     }
 
