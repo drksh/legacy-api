@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Submission;
+use App\Observers\SubmissionObserver;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +16,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Submission::observe(SubmissionObserver::class);
+
+        Relation::morphMap([
+            'url' => \App\Url::class,
+        ]);
     }
 
     /**
@@ -23,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton('slugger', function($app) {
+            return new \Darkshare\Slugger();
+        });
     }
 }
