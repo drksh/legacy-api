@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use App\File;
 use Illuminate\Support\Facades\Storage;
 
 class Submission extends Model

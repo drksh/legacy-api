@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('slugger', function($app) {
+        $this->app->singleton('slugger', function ($app) {
             return new \Darkshare\Slugger();
         });
     }

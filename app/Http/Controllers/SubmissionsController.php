@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Submission;
-use App\Snippet;
-use App\File;
 use App\Url;
-use Illuminate\Support\Facades\Storage;
 
 class SubmissionsController extends Controller
 {
