@@ -57,7 +57,6 @@ class SubmissionTest extends TestCase
      public function it_can_be_a_file_upload()
     {
         $submission = factory(Submission::class, 'file')->create();
-        $this->assertInstanceOf(Snippet::class, $submission->content);
         $this->assertInstanceOf(File::class, $submission->content);
         $this->assertEquals($submission->content->id, $submission->content_id);
         $this->assertEquals('file', $submission->content_type);
