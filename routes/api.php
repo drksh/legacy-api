@@ -13,5 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('/{submission}', 'SubmissionsController@show');
 Route::post('/', 'SubmissionsController@store');
 

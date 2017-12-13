@@ -36,6 +36,14 @@ class SubmissionTest extends TestCase
     }
 
     /** @test */
+    public function it_uses_its_slug__as_route_key()
+    {
+        $submission = new Submission;
+
+        $this->assertEquals('slug', $submission->getRouteKeyName());
+    }
+
+    /** @test */
     public function it_can_be_a_short_url()
     {
         $submission = factory(Submission::class, 'url')->create();

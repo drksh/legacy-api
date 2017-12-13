@@ -8,6 +8,14 @@ use App\Url;
 
 class SubmissionsController extends Controller
 {
+    public function show(Submission $submission)
+    {
+        return response([
+            'type' => $submission->content_type,
+            'body' => $submission->content->body,
+        ]);
+    }
+
     public function store()
     {
         $submission = Submission::createFromType(request('type'), [
