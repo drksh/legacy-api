@@ -16,3 +16,7 @@ use Illuminate\Http\Request;
 Route::get('/{submission}', 'SubmissionsController@show');
 Route::post('/', 'SubmissionsController@store');
 
+// Not implemented
+Route::patch('/{submission}', 'SubmissionsController@update');
+Route::delete('/{submission}', 'SubmissionsController@destroy');
+
